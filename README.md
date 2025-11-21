@@ -1,38 +1,189 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Next.js Auth Boilerplate (Symfony Backend)
 
-## Getting Started
+Boilerplate frontend sécurisé en Next.js conçu pour fonctionner avec un backend Symfony API.  
+Il fournit une base propre, performante et scalable pour gérer une authentification moderne via cookie JWT HTTP-only.
 
-First, run the development server:
+---
+
+## 🎯 Objectif
+
+Ce projet est un boilerplate prêt à l’emploi pour :
+- ✅ Login
+- ✅ Register
+- ✅ Logout
+- ✅ Gestion de session persistante
+- ✅ Protection des routes côté serveur (middleware)
+
+Le tout avec une architecture claire, propre et sécurisée.
+
+---
+
+## 🧱 Stack Frontend
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- TanStack React Query
+- Tailwind CSS + animations modernes
+- Next Themes (dark / light)
+- Framer Motion
+- React Hook Form + Zod
+- Styled Components
+- Middleware Next.js
+- JWT via cookie HTTP-only
+
+---
+
+## 🔐 Architecture Auth
+
+Le frontend communique avec Symfony via API REST :
+
+| Action                      | Endpoint Symfony       |
+|-----------------------------|------------------------|
+| Register                    | /api/register          |
+| Login                       | /api/login_check       |
+| Récupérer l'utilisateur     | /api/me                |
+| Logout                      | /api/logout            |
+
+### ✅ Sécurité appliquée
+
+- Auth via cookie JWT HTTP-only
+- Protection des routes serveur via Middleware Next
+- Requête /me centralisée via React Query
+- Pas de stockage sensible en localStorage
+- Gestion automatique des sessions expirées
+
+---
+
+## 🧠 Fonctionnement global
+
+### Fournisseurs globaux (RootLayout)
+
+ThemeProvider  
+QueryClientProvider  
+AuthProvider  
+Toaster (Sonner)
+
+### Auth Context exposé
+
+useAuth()
+
+Fonctions disponibles :
+- user
+- isAuthenticated
+- loading
+- login(email, password)
+- register(email, password)
+- logout()
+
+Une seule requête /me est utilisée pour déterminer l'état global de l'utilisateur.
+
+---
+
+## 🔒 Protection des routes
+
+Routes protégées définies dans le middleware :
+
+/profile
+
+# Boilerplate Next.js avec Auth JWT
+
+## /profile
+Si l'utilisateur n'est **pas authentifié** → Redirection serveur instantanée vers `/login`.
+
+---
+
+## 📦 Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/TON-USER/BoilerplateNext.git
+cd BoilerplateNext
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Créer un fichier `.env.local` :
+```env
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+▶️ **Démarrer le projet**
+```bash
+npm run dev
+```
+Accès local : 👉 [http://127.0.0.1:3000](http://127.0.0.1:3000)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧪 Scripts disponibles
 
-To learn more about Next.js, take a look at the following resources:
+| Commande         | Description          |
+|------------------|----------------------|
+| `npm run dev`    | Développement        |
+| `npm run build`  | Build production     |
+| `npm run start`  | Lancer le build      |
+| `npm run lint`   | ESLint               |
+| `npm run test`   | Tests Jest           |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Structure du projet
 
-## Deploy on Vercel
+```
+src/
+├── app/
+├── components/
+├── context/
+│   └── AuthContext.tsx
+├── services/
+│   ├── apiClient.ts
+│   └── authService.ts
+├── middleware.ts
+└── styles/
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⚙️ Configuration Symfony attendue
 
-npx shadcn@latest add button card input form alert-dialog sonner
+Le backend Symfony doit :
+- Gérer un cookie JWT sécurisé (HttpOnly)
+- Autoriser CORS avec `credentials: true` et `origin` configuré
+- Exposer les endpoints :
+  - `POST   /api/login_check`
+  - `POST   /api/register`
+  - `GET    /api/me`
+  - `POST   /api/logout`
+
+---
+
+## 🛡 Points forts du boilerplate
+
+- Architecture clean & moderne
+- Auth sécurisée sans localStorage
+- Middleware de protection côté serveur
+- React Query optimisé
+- Structure scalable
+- Prêt pour système de rôles
+- Prêt pour production
+
+---
+
+## 🚧 Pistes d'amélioration
+
+- Refresh Token automatique
+- ACL par rôles
+- Guard HOC côté client
+- Dashboard admin
+- Social Auth (Google / GitHub)
+- Tests E2E Playwright
+
+---
+
+## 🧑‍💻 Auteur
+
+Développé avec ❤️ par [Nassim Belalia](https://github.com/Nassim84)
+Boilerplate conçu pour des projets sérieux, propres et évolutifs.
+
+
+Si l'utilisateur n'est pas authentifié →  
+Redirection serveur instantanée vers /login.
